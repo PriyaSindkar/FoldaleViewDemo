@@ -99,7 +99,7 @@ public class TabFragment extends Fragment implements FlipView.OnFlipListener {
         super.setUserVisibleHint(isVisibleToUser);
         isVisible = isVisibleToUser;
         if(mFlipView !=null)
-            mFlipView.smoothFlipTo(0);
+            mFlipView.flipTo(0);
         if (isVisibleToUser) {
             Log.e("TAG", "VISIBLE " + tabName);
 

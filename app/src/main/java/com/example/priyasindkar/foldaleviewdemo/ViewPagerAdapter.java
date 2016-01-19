@@ -13,9 +13,11 @@ import android.view.ViewGroup;
  * Created by Admin on 11-12-2015.
  */
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
-    int sp;
-    public ViewPagerAdapter(FragmentManager fm) {
+    String[] tabTitles ;
+
+    public ViewPagerAdapter(FragmentManager fm, String[] _titles) {
         super(fm);
+        tabTitles = _titles;
     }
 
     @Override
@@ -37,8 +39,14 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     }
 
     @Override
+    public CharSequence getPageTitle(int position) {
+        // Generate title based on item position
+         return tabTitles[position];
+    }
+
+    @Override
     public int getCount() {
-        return 2;
+        return 3;
     }
 
     @Override

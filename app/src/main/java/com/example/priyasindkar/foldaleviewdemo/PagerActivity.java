@@ -3,16 +3,17 @@ package com.example.priyasindkar.foldaleviewdemo;
 /**
  * Created by priyasindkar on 18-01-2016.
  */
-import android.content.Context;
+import android.graphics.Color;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 public class PagerActivity extends AppCompatActivity {
 
@@ -42,7 +43,7 @@ public class PagerActivity extends AppCompatActivity {
         the default action bar thus making the toolbar work like a normal
         action bar.
          */
-        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), new String[] {"Tab 1","Tab 2","Tab 3"});
         viewPager.setAdapter(viewPagerAdapter);
 
         /*
@@ -50,8 +51,8 @@ public class PagerActivity extends AppCompatActivity {
         which is below the tabs, its the tab itself.
          */
 
-        final TabLayout.Tab tab1 = tabLayout.newTab();
-        final TabLayout.Tab tab2 = tabLayout.newTab();
+        /*final TabLayout.Tab tab1 = tabLayout.newTab();
+        final TabLayout.Tab tab2 = tabLayout.newTab();*/
        /* final TabLayout.Tab tab3 = tabLayout.newTab();
         final TabLayout.Tab tab4 = tabLayout.newTab()*/;
 
@@ -59,8 +60,8 @@ public class PagerActivity extends AppCompatActivity {
         Setting Title text for our tabs respectively
          */
 
-        tab1.setText("Tab 1");
-        tab2.setText("Tab 2");
+     /*   tab1.setText("Tab 1");
+        tab2.setText("Tab 2");*/
        /* tab3.setText("Tab 3");
         tab4.setText("Tab 4");
 */
@@ -69,8 +70,8 @@ public class PagerActivity extends AppCompatActivity {
         As I want home at first position I am passing home and 0 as argument to
         the tablayout and like wise for other tabs as well
          */
-        tabLayout.addTab(tab1, 0);
-        tabLayout.addTab(tab2, 1);
+       /* tabLayout.addTab(tab1, 0);
+        tabLayout.addTab(tab2, 1);*/
        /* tabLayout.addTab(tab3, 2);
         tabLayout.addTab(tab4, 3);*/
 
@@ -81,8 +82,34 @@ public class PagerActivity extends AppCompatActivity {
         TabIndicatorColor sets the color for the indiactor below the tabs
          */
 
-        tabLayout.setTabTextColors(ContextCompat.getColorStateList(this, R.color.colorPrimary));
-        tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
+
+        //divider
+        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setBackgroundColor(Color.parseColor("#ff0000"));
+        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+
+           // if(i!=0) {
+                TabLayout.Tab tab = tabLayout.getTabAt(i);
+                RelativeLayout relativeLayout = (RelativeLayout)
+                        LayoutInflater.from(this).inflate(R.layout.tab_item, tabLayout, false);
+            View line = (View) relativeLayout.findViewById(R.id.line);
+
+            if(i==0){
+                    line.setVisibility(View.GONE);
+                }else{
+                    line.setVisibility(View.VISIBLE);
+                }
+
+                TextView tabTextView = (TextView) relativeLayout.findViewById(R.id.tab_title);
+                tabTextView.setText(tab.getText());
+                tab.setCustomView(relativeLayout);
+                 tab.select();
+
+            //
+          //  }
+        }
+        viewPager.setCurrentItem(0);
+
 
         /*
         Adding a onPageChangeListener to the viewPager
@@ -101,7 +128,7 @@ public class PagerActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                Log.e("PAGE_SELECTED", position+"");
+                Log.e("PAGE_SELECTED", position + "");
             }
 
             @Override
